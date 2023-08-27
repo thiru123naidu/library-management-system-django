@@ -11,6 +11,7 @@ from Books.models import *
 from Books.serializers1 import *
 from rest_framework.generics import ListAPIView,CreateAPIView,RetrieveAPIView,DestroyAPIView,UpdateAPIView
 import jwt
+from library import loginenum
 
 MY_SECREATE="nsdjcdjs12344t!@#$%^&*()_++-vfdmngbnfgfgntihtoh"
 
@@ -37,7 +38,7 @@ def login(request):
     if user != None:
         serializersdata = admin1serializer(user)
         if serializersdata:
-            payload = {"rollnumber": serializersdata.data["rollnumber"],"password": serializersdata.data["password"]}
+            payload = {loginenum.ROLLNIMBER: serializersdata.data[loginenum.ROLLNIMBER],"password": serializersdata.data["password"]}
             token = jwt.encode(payload=payload,key=MY_SECREATE, algorithm="HS256")
             response = Response()
             response.set_cookie(key="jwt",value=token,httponly=True)
@@ -49,7 +50,7 @@ def login(request):
         user1=student.objects.filter(rollnumber=rollnumber).first()
         serializersdata123 = studentserializer(user1)
         if serializersdata123:
-            payload = {"rollnumber": serializersdata123.data["rollnumber"],"password": serializersdata123.data["password"]}
+            payload = {loginenum.ROLLNIMBER: serializersdata123.data[loginenum.ROLLNIMBER],"password": serializersdata123.data["password"]}
             token = jwt.encode(payload=payload,key=MY_SECREATE, algorithm="HS256")
             response = Response()
             response.set_cookie(key="jwt",value=token,httponly=True)
@@ -67,7 +68,7 @@ def retrive(request):
     token = request.COOKIES.get('jwt')
     try:
         payload1=jwt.decode(token,options={"verify_signature":False})
-        k=payload1["rollnumber"]
+        k=payload1[loginenum.ROLLNIMBER]
        
         student_obj= student.objects.get(rollnumber=k)
         serializersdata = studentserializer(student_obj)
@@ -89,7 +90,7 @@ def retrivelibrary(request):
     token = request.COOKIES.get('jwt')
     try:
         payload1=jwt.decode(token,options={"verify_signature":False})
-        k=payload1["rollnumber"]
+        k=payload1[loginenum.ROLLNIMBER]
        
         student_obj= student.objects.get(rollnumber=k)
         serializersdata = studentserializer(student_obj)
