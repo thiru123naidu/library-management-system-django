@@ -11,11 +11,12 @@ from .models import *
 from .serializer import *
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from library.models import student
+from library.models import admin1, student
 from Books.models import books
 from Books.serializers1 import *
 import jwt
 from library import views
+from library.serializer import *
 
 #MY_SECREATE="nsdjcdjs12344t!@#$%^&*()_++-vfdmngbnfgfgntihtoh"
 '''@api_view(['GET'])
@@ -290,20 +291,27 @@ def readallstuid(request):
 def createstuid(request):
     token = request.COOKIES.get('jwt')
     try:
+        #token = request.COOKIES.get('jwt')
         payload1=jwt.decode(token,options={"verify_signature":False})
         k=payload1[loginenum.ROLLNIMBER]
       
         student_obj= admin1.objects.filter(rollnumber=k).first()
         serializersdata = admin1serializer(student_obj)
-        
+        print(serializersdata.data)
         if serializersdata.data[loginenum.ROLLNIMBER]!=None:
+            print("before")
             serializersdata1=studentserializer(data=request.data)
+            print("ofter")
+            #print(serializersdata1.data)
             if serializersdata1.is_valid():
                 serializersdata1.save()
 
-         
+                return Response({"status":200,"mag":"successfully added student data"})
             
+            else:
+                return Response({"status":401,"msg":"please enter a valid student information otherwise it will be not saved"})
         else:
-            return Response({"status":401,"msg":"your not an admin"})
+            return Response({"status":401,"msg":"admin only can access this feature "})
+
     except:
-        return Response({"msg":"please provide valid rollnumber it is not present in the database"})
+        return Response({"msg":"please login with valid username and password"})
