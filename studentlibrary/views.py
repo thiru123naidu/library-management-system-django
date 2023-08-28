@@ -36,12 +36,12 @@ def create(request,id):
         
         student_obj= admin1.objects.get(rollnumber=k)
         serializersdata = admin1serializer(student_obj)
-        #print(serializersdata.data)
+     
         if serializersdata.data:
             student_id = student.objects.get(rollnumber = id)
             serializersdata12 = studentserializer(student_id)
             data11=serializersdata12.data[loginenum.ROLLNIMBER]
-            #print(data11)
+        
             if data11 == id:
                 request.data["issue_date"]=date.today()
                 request.data["time_period"]=request.data["issue_date"]+timedelta(days=10)
@@ -65,10 +65,10 @@ def read(request):
     try:
         payload1=jwt.decode(token,options={"verify_signature":False})
         k=payload1[loginenum.ROLLNIMBER]
-        print(k)
+       
         student_obj= admin1.objects.filter(rollnumber=k).first()
         serializersdata = admin1serializer(student_obj)
-        print(serializersdata.data)
+       
         if serializersdata.data[loginenum.ROLLNIMBER]!=None:
            
             student_obj1=studentlibrary.objects.all()
@@ -92,13 +92,13 @@ def retrive(request,id):
     try:
         payload1=jwt.decode(token,options={"verify_signature":False})
         k=payload1[loginenum.ROLLNIMBER]
-        print(k)
+     
         student_obj= admin1.objects.filter(rollnumber=k).first()
         serializersdata = admin1serializer(student_obj)
-        print(serializersdata.data)
+      
         if serializersdata.data[loginenum.ROLLNIMBER]!=None:
             student_id=studentlibrary.objects.filter(student_rollnumber=id).first()
-            print("hi")
+           
             serializersdata111 = studentlibraryserializers(student_id)
             return Response({"payload":serializersdata111.data})
         else:
@@ -114,7 +114,7 @@ def delete(request,id):
     try:
         payload1=jwt.decode(token,options={"verify_signature":False})
         k=payload1[loginenum.ROLLNIMBER]
-        #print(k)
+   
         student_obj= admin1.objects.filter(rollnumber=k).first()
         serializersdata = admin1serializer(student_obj)
         
@@ -147,7 +147,7 @@ def returning_book(request,id):
    
         payload1=jwt.decode(token,options={"verify_signature":False})
         k=payload1[loginenum.ROLLNIMBER]
-        print(k)
+
         student_obj= admin1.objects.filter(rollnumber=k).first()
         serializersdata = admin1serializer(student_obj)
         
@@ -155,14 +155,14 @@ def returning_book(request,id):
         if serializersdata.data[loginenum.ROLLNIMBER]!=None:
             student_id=studentlibrary.objects.filter(student_rollnumber=id).first()
             serializerdata12=studentlibraryserializers(student_id)
-            print(serializerdata12.data)                                                        
+                                                                 
             if serializerdata12.data:
                 return_date=datetime.strptime(request.data["return_date"],"%Y-%m-%d").date()
              
                 value1=datetime.strptime(serializerdata12.data["time_period"],"%Y-%m-%d").date()
            
                 days1=(return_date-value1).days
-                print(days1)
+               
                 
 
                 if days1<=0:
@@ -200,7 +200,7 @@ def retrive_studentid(request,id):
     try:
         payload1=jwt.decode(token,options={"verify_signature":False})
         k=payload1[loginenum.ROLLNIMBER]
-        print(k)
+       
         student_obj= admin1.objects.filter(rollnumber=k).first()
         serializersdata = admin1serializer(student_obj)
         
@@ -219,7 +219,7 @@ def student_delete(request,id):
     try:
         payload1=jwt.decode(token,options={"verify_signature":False})
         k=payload1[loginenum.ROLLNIMBER]
-        print(k)
+ 
         student_obj= admin1.objects.filter(rollnumber=k).first()
         serializersdata = admin1serializer(student_obj)
         
@@ -291,18 +291,18 @@ def readallstuid(request):
 def createstuid(request):
     token = request.COOKIES.get('jwt')
     try:
-        #token = request.COOKIES.get('jwt')
+     
         payload1=jwt.decode(token,options={"verify_signature":False})
         k=payload1[loginenum.ROLLNIMBER]
       
         student_obj= admin1.objects.filter(rollnumber=k).first()
         serializersdata = admin1serializer(student_obj)
-        print(serializersdata.data)
+  
         if serializersdata.data[loginenum.ROLLNIMBER]!=None:
-            print("before")
+     
             serializersdata1=studentserializer(data=request.data)
-            print("ofter")
-            #print(serializersdata1.data)
+         
+           
             if serializersdata1.is_valid():
                 serializersdata1.save()
 

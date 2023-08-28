@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import *
 from .serializer import *
-from .jwttoken import *
+
 from studentlibrary.models import *
 from studentlibrary.serializer import *
 from Books.models import *
@@ -96,11 +96,11 @@ def retrivelibrary(request):
         serializersdata = studentserializer(student_obj)
        
         if serializersdata.data:
-            print("hi")
+          
             student_id = studentlibrary.objects.get(student_rollnumber=k)
-            print(student_id)
+           
             serializersdata1 = studentlibraryserializers(student_id)
-            print(serializersdata1.data)
+         
             return Response({"status": "success", "data": serializersdata1.data})
         else:
             return Response({"status": 401,"message":"your not an administrator"})
