@@ -6,3 +6,6 @@ class bookserializer(serializers.ModelSerializer):
         model = books
 
         fields ='__all__'
+
+    def __str__(self):
+        return "hello"
