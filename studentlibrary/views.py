@@ -200,7 +200,7 @@ def retrive_studentid(request,id):
     try:
         payload1=jwt.decode(token,options={"verify_signature":False})
         k=payload1[loginenum.ROLLNIMBER]
-       
+        print(k)
         student_obj= admin1.objects.filter(rollnumber=k).first()
         serializersdata = admin1serializer(student_obj)
         
