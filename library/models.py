@@ -13,4 +13,5 @@ class student(models.Model):
 class admin1(models.Model):
     rollnumber = models.IntegerField(primary_key=True)
     password = models.CharField(max_length=50)
-
+    def __str__(self) -> str:
+       return f"{self.rollnumber}"
