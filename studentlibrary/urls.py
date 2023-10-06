@@ -12,7 +12,7 @@ urlpatterns = [
     path("deletestuid/<int:id>",student_delete),
     path("updatestuid/<int:id>",updatestuid),
     path("readallstuid/",readallstuid),
-    path("return/<int:id>",returning_book),
+    path("return/<int:id>",returning_book)
 
     
     
